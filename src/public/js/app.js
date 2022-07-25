@@ -1,6 +1,5 @@
 const socket = io();
 
-
 const customerTransmitter = document.querySelector("#customerTransmitter");
 const customerSide = document.getElementById("customerSide")
 const showcardSide = document.getElementById("showcardSide")
@@ -12,11 +11,13 @@ customerSide.hidden = true;
 showcardSide.hidden = true;
 
 socket.addEventListener("open", ()=>console.log("open"));
-
 socket.addEventListener("close", () => {
   console.log("Disconnected from Server ❌");
 });
 
+/*
+이 부분에서 setData 를 사용해 euphony로 출력하기 원하는 element 값을 설정가능.
+*/
 socket.on('setShowCardData', (setData)=>{
   console.log(setData);
 })
@@ -36,7 +37,6 @@ function handleSubmit(event) {
   event.preventDefault();
   const name = customerTransmitter.querySelector(".customerTransmitter_name");
   const price = customerTransmitter.querySelector(".customerTransmitter_price");
-  console.log(name.value);
   socket.emit("setData", {name:name.value, price:price.value});
   name.value = ""
   price.value = "";
