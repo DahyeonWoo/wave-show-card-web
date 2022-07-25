@@ -4,15 +4,36 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet", href="https://unpkg.com/mvp.css"/>
     <title>Euterpe transmitter</title>
   </head>
   <body>
-    <a href="/customer">
-      <div class="customerSide">Customer Side</div>
-    </a>
-    <a href="/showcard">
-      <div class="showcardSide">Showcard Side</div>
-    </a>
+    <div id="customerSide">
+      <form id="customerTransmitter">
+        <input
+          class="customerTransmitter_name"
+          type="text"
+          placeholder="Type product name"
+          required
+        />
+        <input
+          class="customerTransmitter_price"
+          type="number"
+          placeholder="Type product price"
+          required
+        />
+        <button>발신하기</button>
+      </form>
+    </div>
+    <div id="showcardSide">
+      showcard
+    </div>
+    <div id="btnContainer">
+      <button class="customerSide_btn">Customer Side</button>
+      <button class="showcardSide_btn">Showcard Side</button>
+    </div>
+    
+    <script src="../../socket.io/socket.io.js""></script>
     <script src="../public/js/app.js"></script>
   </body>
 </html>

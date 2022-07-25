@@ -1,31 +1,49 @@
-const customer = document.querySelector("costomerTransmitter");
+const socket = io();
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+
+const customerTransmitter = document.querySelector("#customerTransmitter");
+const customerSide = document.getElementById("customerSide")
+const showcardSide = document.getElementById("showcardSide")
+const btnContainer = document.getElementById("btnContainer")
+const customerBtn = document.querySelector(".customerSide_btn")
+const showcardBtn = document.querySelector(".showcardSide_btn")
+
+customerSide.hidden = true;
+showcardSide.hidden = true;
 
 socket.addEventListener("open", ()=>console.log("open"));
-
-socket.addEventListener("message", (message) => {
-  const li = document.createElement("li");
-  li.innerText = message.data;
-  messageList.append(li);
-});
 
 socket.addEventListener("close", () => {
   console.log("Disconnected from Server ❌");
 });
 
-function makeMessage(payload) {
-    const msg = { payload };
-    return JSON.stringify(msg);
+socket.on('setShowCardData', (setData)=>{
+  console.log(setData);
+})
+
+function openPage(event){
+  const currentPage = event.target.innerText;
+  if(currentPage === "Customer Side"){
+    customerSide.hidden = false;
+    btnContainer.hidden = true;
+  } else if(currentPage === "Showcard Side"){
+    showcardSide.hidden = false;
+    btnContainer.hidden = true;
   }
+}
 
 function handleSubmit(event) {
-    event.preventDefault();
-    const name = customer.querySelector(".costomerTransmitter__name");
-    const price = customer.querySelector(".costomerTransmitter__price");
-    console.log(name)
-    socket.send(makeMessage("new_message", {name:name.nodeValue, price:price.nodeValue}));
-  }
+  event.preventDefault();
+  const name = customerTransmitter.querySelector(".customerTransmitter_name");
+  const price = customerTransmitter.querySelector(".customerTransmitter_price");
+  console.log(name.value);
+  socket.emit("setData", {name:name.value, price:price.value});
+  name.value = ""
+  price.value = "";
+};
 
 
-  customer.addEventListener('submit', handleSubmit)
+customerBtn.addEventListener('click', openPage)
+showcardBtn.addEventListener('click', openPage)
+
+customerTransmitter.addEventListener('submit', handleSubmit)
